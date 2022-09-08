@@ -12,7 +12,7 @@ const NavSelectMenu: FC<SelectMenu> = ({ name, selectMenu }) => {
   document.onmousedown = () => setIsOpen(false);
 
   return (
-    <div className="relative cursor-pointer"
+    <div className="relative cursor-pointer ml-3"
       onClick={() => setIsOpen(true)}
     >
       <div className="text-white flex items-center">

@@ -9,7 +9,7 @@ const Nav: FC = () => {
         <img src="https://avatars.githubusercontent.com/u/60529600?v=4" className="w-full h-full" />
       </div>
 
-      <div className="ml-10">
+      <div className="ml-10 flex">
         <NavSelectMenu name="test1" selectMenu={['a', 'b']} />
         <NavSelectMenu name="test2" selectMenu={['a', 'b']} />
       </div>
