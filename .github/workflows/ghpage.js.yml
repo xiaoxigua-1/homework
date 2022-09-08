@@ -30,6 +30,7 @@ jobs:
       - name: Build
         run: |
           npm run build
+          echo homework.xiaoxigua.art > CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
