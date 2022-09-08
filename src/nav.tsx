@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Content from './content';
 import NavSelectMenu from './select_menu';
 
 const Nav: FC = () => {
@@ -13,6 +14,8 @@ const Nav: FC = () => {
         <NavSelectMenu name="test1" selectMenu={['a', 'b']} />
         <NavSelectMenu name="test2" selectMenu={['a', 'b']} />
       </div>
+
+      <Content />
     </div>
   );
 };
