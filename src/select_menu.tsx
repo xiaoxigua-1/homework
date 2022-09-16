@@ -15,7 +15,7 @@ const NavSelectMenu: FC<SelectMenu> = ({ name, selectMenu }) => {
       </div>
       {/* select menu */}
       <div className={`peer-focus-within:block hidden md:absolute md:bg-slate-600 md:shadow-md w-full rounded-sm text-white md:px-auto px-8 top-10`} >
-        {selectMenu.map(name => <div>{name}</div>)}
+        {selectMenu.map(name => <div key={name}>{name}</div>)}
       </div>
     </div>
   );

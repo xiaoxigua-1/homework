@@ -1,12 +1,16 @@
 import React from 'react';
 import Nav from './nav';
-import Content from './content';
+import About from './about';
+import { Outlet } from 'react-router-dom';
+
+
+
 
 function App() {
   return (
     <div className="App">
       <Nav />
-      <Content />
+      <Outlet />
     </div>
   );
 }
