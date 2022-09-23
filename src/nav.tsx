@@ -3,6 +3,21 @@ import NavSelectMenu from './select_menu';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
+const nav = [
+  {
+    name: 'About',
+    link: '/about',
+  },
+  {
+    name: 'About',
+    link: '/about',
+  },
+  {
+    name: 'About',
+    link: '/about',
+  }
+]
+
 const Nav: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,9 +33,7 @@ const Nav: FC = () => {
       <div
         className={`flex md:static absolute top-12 flex-col md:flex-row md:ml-10 bg-cyan-600 w-full md:w-auto ${isOpen ? "h-auto" : "h-0"} md:h-auto md:overflow-visible overflow-hidden`}
       >
-        <Link to="/about" className="text-white">About</Link>
-        <NavSelectMenu name="test1" selectMenu={['a', 'b']} />
-        <NavSelectMenu name="test2" selectMenu={['a', 'b']} />
+        <NavSelectMenu name="homework" selectMenu={nav} />
       </div>
 
       <div className="absolute right-5">

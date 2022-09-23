@@ -30,6 +30,7 @@ jobs:
       - name: Build
         run: |
           echo homework.xiaoxigua.art > ./public/CNAME
+          cp ./dist/index.html ./dist/404.html
           npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
