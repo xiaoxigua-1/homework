@@ -6,18 +6,18 @@ import { useState } from 'react';
 
 const nav = [
   {
-    name: 'About',
+    name: 'Homework 3',
     link: '/about',
   },
   {
-    name: 'About',
+    name: 'Homework 4',
     link: '/about',
   },
   {
-    name: 'About',
+    name: 'Homework 5',
     link: '/about',
-  }
-]
+  },
+];
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);

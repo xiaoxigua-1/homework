@@ -20,10 +20,12 @@ const NavSelectMenu: NextPage<SelectMenu> = ({ name, selectMenu }) => {
         <AiOutlineCaretLeft className={`ml-1 group-focus-within:-rotate-90`} />
       </div>
       {/* select menu */}
-      <div className={`group-focus-within:block hidden md:absolute md:bg-slate-600 md:shadow-md w-full rounded-sm text-white md:px-auto px-8 top-10 z-10`} >
+      <div className={`group-focus-within:block hidden md:absolute md:bg-slate-600 md:shadow-md rounded-sm text-white md:px-auto px-8 top-10 z-10`} >
         {selectMenu.map(item => (
           <div key={item.name}>
-            <Link href={item.link}>{item.name}</Link>
+            <Link href={item.link}>
+              <a className="whitespace-nowrap">{item.name}</a>
+            </Link>
           </div>
         ))}
       </div>
