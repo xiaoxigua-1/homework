@@ -6,7 +6,7 @@ const Home: NextPage = () => {
     <div className="flex justify-center">
       <Image src="avatar.jpeg" width={240} height={240} className="select-none block m-auto" alt="avatar" />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
