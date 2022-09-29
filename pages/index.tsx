@@ -1,8 +1,11 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import Image from 'next/image';
 
 const Home: NextPage = () => {
   return (
-    <img src="https://avatars.githubusercontent.com/u/60529600?v=4" className="select-none wx-60 m-auto" />
+    <div className="flex justify-center">
+      <Image src="avatar.jpeg" width={240} height={240} className="select-none block m-auto" alt="avatar" />
+    </div>
   )
 }
 
