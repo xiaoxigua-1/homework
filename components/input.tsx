@@ -1,17 +1,26 @@
 import { NextPage } from 'next';
+import { useState } from 'react';
+import { Input } from '@chakra-ui/react';
+
 
 interface Input {
   name: string;
   value: string;
 }
 
-const Input: NextPage<Input> = ({ name, value }) => {
+const NewInput: NextPage<Input> = ({ name, value }) => {
   return (
     <div className="flex justify-between mt-2">
-      <p>{name}:</p>
-      <input type="text" value={value} className="border rounded-sm focus:outline-cyan-400" readOnly={true} />
+      <span className="whitespace-nowrap">{name}:</span>
+      <div className="w-[320px]">
+        <Input
+          defaultValue={value}
+          type="text"
+          size="sm"
+        />
+      </div>
     </div>
   );
 };
 
-export default Input;
+export default NewInput;
