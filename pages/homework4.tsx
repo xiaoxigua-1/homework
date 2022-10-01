@@ -1,12 +1,22 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import MyInput from '../components/input';
-import { Checkbox, Input, Radio, RadioGroup, Select, Stack } from '@chakra-ui/react'
+import { Checkbox, Container, Input, Radio, RadioGroup, Select, Stack } from '@chakra-ui/react'
 import MySelect from '../components/selects';
+import { useState } from 'react';
 
 const Homework2: NextPage = () => {
+  const [selectValue, setSelectValue] = useState('');
+  const [textColor, setTextColor] = useState('#444444');
+
   return (
     <div>
+      <Container textAlign={'center'} marginTop={10} maxW="container.xl">
+        <h1 className="font-bold text-4xl">杏仁咪嚕</h1>
+        <p style={{ color: textColor }}>
+          杏仁咪嚕（日語：杏仁 ミル／あんにん みる Annin Miru），是一名台灣虛擬YouTuber、遊戲實況主，其頻道以遊戲實況、翻唱及直播為主。杏仁咪嚕為個人勢虛擬網紅，同時與Yahoo TV合作，在Yahoo TV上擁有自己的節目「咪嚕咪嚕杏期四」。
+        </p>
+      </Container>
       <div className="flex flex-wrap mt-5 justify-center mx-5">
         <div className="flex-grow mx-2">
           <h2 className="text-2xl font-bold text-yellow-500">Profile</h2>
@@ -16,7 +26,7 @@ const Homework2: NextPage = () => {
           <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
           <MyInput name="性" value=""/>
           <MyInput name="名" value=""/>
-          <MySelect name="性別" options={['男', '女']} />
+          <MySelect name="性別" options={['男', '女']} setValue={setSelectValue} />
           <MyInput name="身高(cm)" value=""/>
           <MyInput name="體重(kg)" value=""/>
           <MyInput name="生日" value=""/>
@@ -70,7 +80,12 @@ const Homework2: NextPage = () => {
       </div>
       <div className="flex flex-wrap mt-2 text-white">
         <div className="flex-grow"></div>
-        <button className="flex-grow mx-5 bg-green-400 rounded-md p-1 min-w-[200px] mt-3">確定</button>
+        <button 
+          className="flex-grow mx-5 bg-green-400 rounded-md p-1 min-w-[200px] mt-3"
+          onClick={() => setTextColor(selectValue === '男' ? 'blue' : 'red')}
+        >
+          確定
+        </button>
         <button className="flex-grow mx-5 bg-red-600 rounded-md p-1 min-w-[200px] mt-3">取消</button>
       </div>
     </div>

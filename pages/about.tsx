@@ -1,10 +1,17 @@
 import Input from '../components/input';
 import { NextPage } from 'next';
 import Image from 'next/image';
+import { Container } from '@chakra-ui/react';
 
 const About: NextPage = () => {
   return (
     <div>
+      <Container textAlign={'center'} marginTop={10} maxW="container.xl">
+        <h1 className="font-bold text-4xl">杏仁咪嚕</h1>
+        <p>
+          杏仁咪嚕（日語：杏仁 ミル／あんにん みる Annin Miru），是一名台灣虛擬YouTuber、遊戲實況主，其頻道以遊戲實況、翻唱及直播為主。杏仁咪嚕為個人勢虛擬網紅，同時與Yahoo TV合作，在Yahoo TV上擁有自己的節目「咪嚕咪嚕杏期四」。
+        </p>
+      </Container>
       <div className="flex flex-wrap mt-5 justify-center">
         <div className="flex-grow mx-2 text-yellow-500">
           <h2 className="text-2xl font-bold">Profile</h2>
