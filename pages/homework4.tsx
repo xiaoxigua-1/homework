@@ -1,29 +1,22 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import MyInput from '../components/input';
-import { Checkbox, Input, Select, Stack } from '@chakra-ui/react'
+import { Checkbox, Input, Radio, RadioGroup, Select, Stack } from '@chakra-ui/react'
+import MySelect from '../components/selects';
 
 const Homework2: NextPage = () => {
   return (
     <div>
-      <div className="flex flex-wrap mt-5 justify-center">
+      <div className="flex flex-wrap mt-5 justify-center mx-5">
         <div className="flex-grow mx-2">
-          <h2 className="text-2xl font-bold">Profile</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">Profile</h2>
           <Image src="/avatar.jpeg" className="select-none m-auto" width={240} height={240} alt="avatar" />
         </div>
         <div className="flex-grow mx-2 max-w-xl">
-          <h2 className="text-2xl font-bold">個人資料</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
           <MyInput name="性" value=""/>
           <MyInput name="名" value=""/>
-          <div className="flex justify-between mt-2">
-            <span className="whitespace-nowrap">性別:</span>
-            <div className="w-[320px]">
-              <Select className="w-28" size="sm">
-                <option>男</option>
-                <option>女</option>
-              </Select>
-            </div>
-          </div>
+          <MySelect name="性別" options={['男', '女']} />
           <MyInput name="身高(cm)" value=""/>
           <MyInput name="體重(kg)" value=""/>
           <MyInput name="生日" value=""/>
@@ -38,17 +31,7 @@ const Homework2: NextPage = () => {
             </div>
           </div>
           <MyInput name="國籍" value=""/>
-          <div className="flex justify-between mt-2">
-            <span className="whitespace-nowrap">血型:</span>
-            <div className="w-[320px]">
-              <Select className="w-28" size="sm">
-                <option>A</option>
-                <option>B</option>
-                <option>AB</option>
-                <option>O</option>
-              </Select>
-            </div>
-          </div>
+          <MySelect name="血型" options={['A', 'B', 'AB', 'O']} />
           <div className="flex justify-between mt-2">
             <span className="whitespace-nowrap">興趣:</span>
             <Stack direction='row' className="w-[320px] justify-between">
@@ -60,7 +43,7 @@ const Homework2: NextPage = () => {
           </div>
         </div>
         <div className="flex-grow mx-2 max-w-xl">
-          <h2 className="text-2xl font-bold">個人資料</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
           <MyInput name="地址" value="" />
           <div className="flex flex-row">
             <div className="flex-grow"></div>
@@ -69,6 +52,20 @@ const Homework2: NextPage = () => {
                 <Checkbox>通訊地址</Checkbox>
             </Stack>
           </div>
+          <MyInput name="電話" value="" regex={/^06(-[0-9]{3}){2}$/g}/>
+          <MyInput name="行動電話" value="" regex={/^09[0-9]{2}(-[0-9]{3}){2}$/g}/>
+          <MyInput name="Email" value="" regex={/^[a-zA-Z]+@[a-zA-Z]+(.[a-zA-Z]+)+$/g}/>
+          <div className="flex flex-row">
+            <div className="flex-grow">社群網站:</div>
+            <RadioGroup>
+              <Stack direction='row' className="w-[320px] justify-between">
+                <Radio value='1'>FB</Radio>
+                <Radio value='2'>IG</Radio>
+                <Radio value='3'>TW</Radio>
+              </Stack>
+            </RadioGroup>
+          </div>
+          <MyInput value="" />
         </div>
       </div>
       <div className="flex flex-wrap mt-2 text-white">

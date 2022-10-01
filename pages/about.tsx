@@ -6,12 +6,12 @@ const About: NextPage = () => {
   return (
     <div>
       <div className="flex flex-wrap mt-5 justify-center">
-        <div className="flex-grow mx-2">
+        <div className="flex-grow mx-2 text-yellow-500">
           <h2 className="text-2xl font-bold">Profile</h2>
           <Image src="/avatar.jpeg" className="select-none m-auto" width={240} height={240} alt="avatar" />
         </div>
         <div className="flex-grow mx-2 max-w-xl">
-          <h2 className="text-2xl font-bold">個人資料</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
           <Input name="本名" value="杏仁（あんにん） ミル" />
           <Input name="別號" value="老大、公主、天使、媽媽、媽咪" />
           <Input name="髮色" value="硬木色、部份挑染月黃色" />
@@ -24,7 +24,7 @@ const About: NextPage = () => {
 
         </div>
         <div className="flex-grow mx-2 max-w-xl">
-          <h2 className="text-2xl font-bold">聯絡資料</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">聯絡資料</h2>
           <Input name="地址" value="神祕的地方" />
           <Input name="電話" value="09xxxxxxxx"/>
           <Input name="email" value="anninmiru@gmail.com"/>
