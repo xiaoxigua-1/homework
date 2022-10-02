@@ -64,7 +64,7 @@ const Homework2: NextPage = () => {
           </div>
           <MyInput name="電話" value="" regex={/^06(-[0-9]{3}){2}$/g}/>
           <MyInput name="行動電話" value="" regex={/^09[0-9]{2}(-[0-9]{3}){2}$/g}/>
-          <MyInput name="Email" value="" regex={/^[a-zA-Z]+@[a-zA-Z]+(\.[a-zA-Z]+)+$/g}/>
+          <MyInput name="Email" value="" regex={/^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/g}/>
           <div className="flex flex-row">
             <div className="flex-grow">社群網站:</div>
             <RadioGroup>
