@@ -23,7 +23,7 @@ const NewInput: NextPage<Input> = ({ name, value, regex }) => {
           type="text"
           size="sm"
           onChange={(e) => {
-            setIsInvalid(!regex?.test(e.target.value) ?? false)
+            setIsInvalid(!regex?.test(e.target.value) as boolean)
           }}
         />
       </div>
