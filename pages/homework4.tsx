@@ -1,13 +1,19 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import MyInput from '../components/input';
-import { Checkbox, Container, Input, Radio, RadioGroup, Select, Stack } from '@chakra-ui/react'
+import { Checkbox, Container, Input, Radio, RadioGroup, Select, Stack, useToast } from '@chakra-ui/react'
 import MySelect from '../components/selects';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { setTimeout } from 'timers/promises';
 
 const Homework2: NextPage = () => {
+  const toast = useToast();
   const [selectValue, setSelectValue] = useState('');
   const [textColor, setTextColor] = useState('#444444');
+  const [name, setName] = useState('');
+  const [last, setLast] = useState('');
+  const [cm, setCM] = useState('');
+  const [kg, setKG] = useState('');
 
   return (
     <div>
@@ -24,11 +30,11 @@ const Homework2: NextPage = () => {
         </div>
         <div className="flex-grow mx-2 max-w-xl">
           <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
-          <MyInput name="性*" value="" regex={/^.+$/}/>
-          <MyInput name="名*" value="" regex={/^.+$/}/>
+          <MyInput name="性*" value="" regex={/^.+$/} setValue={setName} />
+          <MyInput name="名*" value="" regex={/^.+$/} setValue={setLast}/>
           <MySelect name="性別" options={['男', '女']} setValue={setSelectValue} />
-          <MyInput name="身高(cm)*" value="" regex={/^.+$/}/>
-          <MyInput name="體重(kg)*" value="" regex={/^.+$/}/>
+          <MyInput name="身高(cm)*" value="" regex={/^.+$/} setValue={setCM}/>
+          <MyInput name="體重(kg)*" value="" regex={/^.+$/} setValue={setKG}/>
           <div className="flex justify-between mt-2">
             <span className="whitespace-nowrap">生日:</span>
             <div className="w-[320px]">
@@ -82,7 +88,17 @@ const Homework2: NextPage = () => {
         <button 
           className="flex-grow mx-5 bg-green-400 rounded-md p-1 min-w-[200px] mt-3"
           onClick={() => {
-            setTextColor(selectValue === '男' ? 'blue' : 'red');
+            if (name && last && cm && kg) {
+              setTextColor(selectValue === '男' ? 'blue' : 'red');
+            } else {
+              let inputName = ['名', '姓', '身高', '體重'];
+              for (let err in [name, last, cm, kg]) {
+                let toastId = toast({ description: `${inputName[err]}未輸入`, colorScheme: 'yellow' });
+                setTimeout(3000, () => {
+                  toast.close(toastId);
+                });
+              }
+            }
           }}
         >
           確定
