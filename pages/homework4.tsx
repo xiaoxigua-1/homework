@@ -93,7 +93,7 @@ const Homework2: NextPage = () => {
             } else {
               let inputName = ['名', '姓', '身高', '體重'];
               for (let err in [name, last, cm, kg]) {
-                toast({ description: `${inputName[err]}未輸入`, colorScheme: 'yellow' });
+                toast({ description: `${inputName[err]}未輸入`, status: 'warning' });
               }
             }
           }}
