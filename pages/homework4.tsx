@@ -24,12 +24,11 @@ const Homework2: NextPage = () => {
         </div>
         <div className="flex-grow mx-2 max-w-xl">
           <h2 className="text-2xl font-bold text-yellow-500">個人資料</h2>
-          <MyInput name="性" value=""/>
-          <MyInput name="名" value=""/>
+          <MyInput name="性*" value="" regex={/^.+$/}/>
+          <MyInput name="名*" value="" regex={/^.+$/}/>
           <MySelect name="性別" options={['男', '女']} setValue={setSelectValue} />
-          <MyInput name="身高(cm)" value=""/>
-          <MyInput name="體重(kg)" value=""/>
-          <MyInput name="生日" value=""/>
+          <MyInput name="身高(cm)*" value="" regex={/^.+$/}/>
+          <MyInput name="體重(kg)*" value="" regex={/^.+$/}/>
           <div className="flex justify-between mt-2">
             <span className="whitespace-nowrap">生日:</span>
             <div className="w-[320px]">
@@ -82,7 +81,9 @@ const Homework2: NextPage = () => {
         <div className="flex-grow"></div>
         <button 
           className="flex-grow mx-5 bg-green-400 rounded-md p-1 min-w-[200px] mt-3"
-          onClick={() => setTextColor(selectValue === '男' ? 'blue' : 'red')}
+          onClick={() => {
+            setTextColor(selectValue === '男' ? 'blue' : 'red');
+          }}
         >
           確定
         </button>
