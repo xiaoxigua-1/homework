@@ -92,8 +92,10 @@ const Homework2: NextPage = () => {
               setTextColor(selectValue === '男' ? 'blue' : 'red');
             } else {
               let inputName = ['名', '姓', '身高', '體重'];
-              for (let err in [name, last, cm, kg]) {
-                toast({ description: `${inputName[err]}未輸入`, status: 'warning' });
+              let idk = [name, last, cm, kg];
+              for (let err in idk) {
+                if (!idk[err])
+                  toast({ description: `${inputName[err]}未輸入`, status: 'warning' });
               }
             }
           }}
