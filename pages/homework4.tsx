@@ -91,7 +91,7 @@ const Homework2: NextPage = () => {
             if (name && last && cm && kg) {
               setTextColor(selectValue === '男' ? 'blue' : 'red');
             } else {
-              let inputName = ['名', '姓', '身高', '體重'];
+              let inputName = ['姓', '名', '身高', '體重'];
               let idk = [name, last, cm, kg];
               for (let err in idk) {
                 if (!idk[err])
