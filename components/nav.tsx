@@ -15,7 +15,7 @@ const nav = [
   },
   {
     name: 'Homework 5',
-    link: '/about',
+    link: '/homework5',
   },
 ];
 
