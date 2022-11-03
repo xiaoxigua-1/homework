@@ -1,13 +1,14 @@
 #[macro_use] extern crate rocket;
 
-use rocket::form::{Form, self};
+use rocket::form::Form;
+use rocket::State;
+use rocket::fairing::AdHoc;
 use rocket::http::Status;
-use hyper::{Client, Request, Method, Body};
-
-const LINE_TOKEN: &'static str = "XUuv4NzzfpwgjE68WTwyU2JUyfmOFX80E9nuUiu3ehA";
+use rocket::serde::Deserialize;
+use reqwest::{multipart, Client};
 
 #[derive(FromForm)]
-struct FromPost {
+struct FormPost {
     name: String,
     birthday: String,
     height: String,
@@ -17,41 +18,47 @@ struct FromPost {
     message: String,
 }
 
+#[derive(Deserialize)]
+#[serde(crate = "rocket::serde")]
+struct Config {
+    token: String,
+}
+
 #[get("/")]
 fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[post("/line", data = "<from>")]
-async fn line(from: Form<FromPost>) -> Status {
-    line_send_message(from).await.unwrap();
+#[get("/line", data = "<form>")]
+async fn line(form: Form<FormPost>, config: &State<Config>) -> Status {
+    line_send_message(form, &config.token).await;
     Status::Ok
 }
 
-
-async fn line_send_message(form: Form<FromPost>) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    // Still inside `async fn main`...
+async fn line_send_message(form: Form<FormPost>, token: &String) { // Form<FromPost>
     let client = Client::new();
+    let multipart = multipart::Form::new()
+        .text("message", format!(
+            "name: {}\nbirthday: {}\naddres: {}\nheight: {}\nmobile: {}\nphone: {}\nmessage: {}",
+            form.name,
+            form.birthday,
+            form.addres,
+            form.height,
+            form.mobile,
+            form.phone,
+            form.message,
+        ));
+    let res = client.post("https://notify-api.line.me/api/notify") 
+        .multipart(multipart)
+        .header("Authorization", format!("Bearer {}", token))
+        .send()
+        .await
+        .unwrap();
 
-    // Parse an `http::Uri`...
-    let uri = "https://notify-api.line.me/api/notify";
-
-    let req = Request::builder()
-        .method(Method::POST)
-        .uri(uri)
-        .header("Authorization", format!("Bearer ", LINE_TOKEN))
-        .body(Body::from(*form))?;
-    
-
-    // Await the response...
-    let mut resp = client.get(uri).await?;
-
-    println!("Response: {}", resp.status());
-
-    Ok(())
+    println!("{}", res.status());
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, line_send_message])
+    rocket::build().mount("/", routes![index, line]).attach(AdHoc::config::<Config>())
 }
