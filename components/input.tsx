@@ -2,13 +2,14 @@ import { NextPage } from 'next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Input } from '@chakra-ui/react';
 
+type setValue = (value: string) => void;
 
 interface Input {
   name?: string;
   value: string;
   regex?: RegExp;
   defaultIsInvalid?: boolean;
-  setValue?: Dispatch<SetStateAction<string>>
+  setValue?: Dispatch<SetStateAction<string>> | setValue;
 }
 
 const NewInput: NextPage<Input> = ({ name, value, regex, setValue, defaultIsInvalid }) => {
