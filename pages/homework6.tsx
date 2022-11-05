@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
 import { useFormik } from 'formik';
-import { Button, Container, FormControl, FormLabel, Input, InputGroup, NumberInput, NumberInputField, Select, Switch, Textarea, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react';
+import { Button, Container, FormControl, FormLabel, Input, InputGroup, NumberInput, NumberInputField, Select, Switch, Textarea, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, useToast } from '@chakra-ui/react';
 import Title from '../components/title';
 import Image from 'next/image';
 import axios from 'axios';
 import { useState } from 'react';
+import { toWeb } from 'form-data';
 
 interface Range {
   start: number,
@@ -90,6 +91,7 @@ interface Data {
 }
 
 const Homework2: NextPage = () => {
+  const toast = useToast();
   const date = new Date();
   let month = `${date.getMonth()}`;
   let day = `${date.getDay()}`;
@@ -103,7 +105,7 @@ const Homework2: NextPage = () => {
   }
 
   const dateString = `${year}-${month}-${day}`;
-
+  
   const formik = useFormik<Data>({
     onSubmit: async(value) => {
       const uri = "http://richienitro.net:8443";
@@ -126,7 +128,19 @@ const Homework2: NextPage = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      req.request();
+      if (req.status === 200) {
+        toast({
+          title: 'Send message Success',
+          status: 'success',
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: 'Send Error',
+          status: 'error',
+          isClosable: true,
+        });
+      }
       formik.setSubmitting(false);
     },
     initialValues: {
@@ -269,7 +283,7 @@ const Homework2: NextPage = () => {
             ) : null}
           </div>
         </div>
-        <div className="flex mx-20 flex-wrap justify-between">
+        <div className="flex mx-20 flex-wrap justify-between mt-10">
           <div className="flex-grow min-w-[400px] max-w-[400px]"></div>
           <Button 
             className="flex-grow mx-1 max-w-[400px]"
