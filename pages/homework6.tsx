@@ -85,8 +85,8 @@ interface Data {
   addres: string,
   mobile: string,
   phone: string,
-  packageId: string | null;
-  stickerId: string | null;
+  packageId: string;
+  stickerId: string;
 }
 
 const Homework2: NextPage = () => {
@@ -108,15 +108,25 @@ const Homework2: NextPage = () => {
     onSubmit: async(value) => {
       const uri = "http://richienitro.net:8443";
       const formData = new FormData();
-      for (const key in formData) {
-        if (key === 'packageId' || key === 'stickerId') {
-          
-        } else {
-          // @ts-ignore
-          formData.append(key, value[key]);
-        }
+      formData.append('name', value.name);
+      formData.append('height', `${value.height}`);
+      formData.append('addres', value.addres);
+      formData.append('mobile', value.mobile);
+      formData.append('message', value.message);
+      formData.append('birthday', value.birthday);
+      formData.append('phone', value.phone);
+      console.log(value);
+      if (sendSticker) {
+        formData.append('packageId', value.packageId);
+        formData.append('stickerId', value.stickerId);
       }
-      const res = await axios.post(`${uri}/line`, { body: formData });
+      const req = await axios({
+        method: 'POST',
+        url: `${uri}/line`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      req.request();
       formik.setSubmitting(false);
     },
     initialValues: {
@@ -127,8 +137,8 @@ const Homework2: NextPage = () => {
       mobile: '',
       phone: '',
       addres: '',
-      packageId: null,
-      stickerId: null
+      packageId: '446',
+      stickerId: '1988'
     }
   });
   const [sendSticker, setSendSticker] = useState(false);
@@ -221,10 +231,6 @@ const Homework2: NextPage = () => {
                 isChecked={sendSticker}
                 onChange={() => {
                   setSendSticker(!sendSticker);
-                  if (sendSticker) {
-                    formik.setFieldValue('packageId', null);
-                    formik.setFieldValue('stickerId', null);
-                  }
                 }}
               />
             </FormControl>
@@ -249,8 +255,11 @@ const Homework2: NextPage = () => {
                   defaultValue={packageMap[packageId].start}
                   min={packageMap[packageId].start}
                   max={packageMap[packageId].end}
+                  onChange={(value) => {
+                    formik.setFieldValue('stickerId', value);
+                  }}
                 >
-                  <NumberInputField />
+                  <NumberInputField/>
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />

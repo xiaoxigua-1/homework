@@ -56,7 +56,7 @@ fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[get("/line", data = "<form>")]
+#[post("/line", data = "<form>")]
 async fn line(form: Form<FormPost>, config: &State<Config>) -> Status {
     line_send_message(form, &config.token).await;
     Status::Ok
