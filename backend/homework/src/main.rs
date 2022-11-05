@@ -49,13 +49,13 @@ async fn line_send_message(form: Form<FormPost>, token: &String) { // Form<FromP
     let multipart = multipart::Form::new()
         .text("message", format!(
             "name: {}\nbirthday: {}\naddres: {}\nheight: {}\nmobile: {}\nphone: {}\nmessage: {}",
-            &form.name,
-            &form.birthday,
-            &form.addres,
-            &form.height,
-            &form.mobile,
-            &form.phone,
-            &form.message,
+            form.name,
+            form.birthday,
+            form.addres,
+            form.height,
+            form.mobile,
+            form.phone,
+            form.message,
         ));
     let multipart = if let Some(sticker) = form.sticker.clone() {
         multipart
