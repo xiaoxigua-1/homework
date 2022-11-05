@@ -1,8 +1,81 @@
 import { NextPage } from 'next';
 import { useFormik } from 'formik';
-import { Button, Container, FormControl, FormLabel, Input, InputGroup, NumberInput, NumberInputField, Textarea } from '@chakra-ui/react';
+import { Button, Container, FormControl, FormLabel, Input, InputGroup, NumberInput, NumberInputField, Select, Switch, Textarea, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react';
 import Title from '../components/title';
 import Image from 'next/image';
+import axios from 'axios';
+import { useState } from 'react';
+
+interface Range {
+  start: number,
+  end: number,
+}
+
+type packageMapType = {
+  [key: number]: Range
+} 
+const packageMap: packageMapType = {
+  446: {
+    start: 1988,
+    end: 2027,
+  },
+  789: {
+    start: 10855,
+    end: 10894
+  },
+  1070: {
+    start: 17839,
+    end: 17878,
+  },
+  6136: {
+    start: 10551376,
+    end: 10551399,
+  },
+  6325: {
+    start: 10979904,
+    end: 10979927
+  },
+  6359: {
+    start: 11069848,
+    end: 11069871
+  },
+  6362: {
+    start: 11087920,
+    end: 11087943,
+  },
+  6370: {
+    start: 11088016,
+    end: 11088039,
+  },
+  6632: {
+    start: 11825374,
+    end: 11825397,
+  },
+  8515: {
+    start: 16581242,
+    end: 16581265,
+  },
+  8522: {
+    start: 16581266,
+    end: 16581289,
+  },
+  8525: {
+    start: 16581290,
+    end: 16581313,
+  },
+  11537: {
+    start: 52002734,
+    end: 52002773,
+  },
+  11538: {
+    start: 51626494,
+    end: 51626533,
+  },
+  11539: {
+    start: 52114110,
+    end: 52114149,
+  },
+}
 
 interface Data {
   message: string;
@@ -12,12 +85,8 @@ interface Data {
   addres: string,
   mobile: string,
   phone: string,
-  sticker?: Sticker
-}
-
-interface Sticker {
-  packageId: string;
-  stickerId: string;
+  packageId: string | null;
+  stickerId: string | null;
 }
 
 const Homework2: NextPage = () => {
@@ -36,8 +105,18 @@ const Homework2: NextPage = () => {
   const dateString = `${year}-${month}-${day}`;
 
   const formik = useFormik<Data>({
-    onSubmit: (value) => {
-      console.log(value);
+    onSubmit: async(value) => {
+      const uri = "http://richienitro.net:8443";
+      const formData = new FormData();
+      for (const key in formData) {
+        if (key === 'packageId' || key === 'stickerId') {
+          
+        } else {
+          // @ts-ignore
+          formData.append(key, value[key]);
+        }
+      }
+      const res = await axios.post(`${uri}/line`, { body: formData });
       formik.setSubmitting(false);
     },
     initialValues: {
@@ -48,8 +127,12 @@ const Homework2: NextPage = () => {
       mobile: '',
       phone: '',
       addres: '',
+      packageId: null,
+      stickerId: null
     }
   });
+  const [sendSticker, setSendSticker] = useState(false);
+  const [packageId, setPackageId] = useState(446);
 
   return (
     <div>
@@ -60,7 +143,7 @@ const Homework2: NextPage = () => {
         </p>
       </Container>
       <form className="mt-5" onSubmit={formik.handleSubmit}>
-        <div className="flex mx-20 flex-wrap">
+        <div className="flex mx-20 flex-wrap justify-between">
           <div className="min-w-[400px]">
             <Title style="text-2xl font-bold text-yellow-500" en="Profile" ch="大頭貼" />
             <Image src="/avatar.jpeg" className="select-none m-auto" width={240} height={240} alt="avatar" />
@@ -131,10 +214,54 @@ const Homework2: NextPage = () => {
               <FormLabel>Message</FormLabel>
               <Textarea resize="none" onChange={formik.handleChange} defaultValue={formik.values.message} name="message" />
             </FormControl>
+            <FormControl className="flex mt-3">
+              <FormLabel>Send Sticker</FormLabel>
+              <Switch
+                size="md"
+                isChecked={sendSticker}
+                onChange={() => {
+                  setSendSticker(!sendSticker);
+                  if (sendSticker) {
+                    formik.setFieldValue('packageId', null);
+                    formik.setFieldValue('stickerId', null);
+                  }
+                }}
+              />
+            </FormControl>
+            {sendSticker ? (
+              <FormControl>
+                <FormLabel>Package</FormLabel>
+                <Select
+                  name="packageId"
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    console.log(e.target.value);
+                    setPackageId(Number(e.target.value));
+                  }}
+                >
+                  {Object.keys(packageMap).map(key => (
+                    //@ts-ignore
+                    <option key={key} value={key}>{`${key} (${packageMap[key].start}-${packageMap[key].end})`}</option>
+                  ))}
+                </Select>
+                <FormLabel>Sticker</FormLabel>
+                <NumberInput
+                  defaultValue={packageMap[packageId].start}
+                  min={packageMap[packageId].start}
+                  max={packageMap[packageId].end}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            ) : null}
           </div>
         </div>
-        <div className="flex mx-20 flex-wrap justify-center">
-          <div className="flex-grow min-w-[400px]"></div>
+        <div className="flex mx-20 flex-wrap justify-between">
+          <div className="flex-grow min-w-[400px] max-w-[400px]"></div>
           <Button 
             className="flex-grow mx-1 max-w-[400px]"
             style={{ minWidth: 400 }}
@@ -143,7 +270,7 @@ const Homework2: NextPage = () => {
             isLoading={formik.isSubmitting} 
             loadingText='Submitting'
           >Submitt</Button>
-          <Button className="flex-grow mx-1 max-w-[400px]" style={{ minWidth: 400 }} colorScheme="red">取消</Button>
+          <Button className="flex-grow mx-1 max-w-[400px]" style={{ minWidth: 400 }} colorScheme="red">Cancel</Button>
         </div>
       </form>
     </div>

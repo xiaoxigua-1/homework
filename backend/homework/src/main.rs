@@ -6,6 +6,29 @@ use rocket::fairing::AdHoc;
 use rocket::http::Status;
 use rocket::serde::Deserialize;
 use reqwest::{multipart, Client};
+use rocket::http::Header;
+use rocket::{Request, Response};
+use rocket::fairing::{Fairing, Info, Kind};
+
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers to responses",
+            kind: Kind::Response
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
+        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+    }
+}
+
 
 #[derive(FromForm, Clone)]
 struct FormPost {
@@ -16,15 +39,10 @@ struct FormPost {
     mobile: String,
     phone: String,
     message: String,
-    sticker: Option<Sticker>
-}
-
-#[derive(FromForm, Clone)]
-struct Sticker {
     #[field(name = "packageId")]
-    package_id: String,
+    package_id: Option<String>,
     #[field(name = "stickerId")]
-    sticker_id: String,
+    sticker_id: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -57,10 +75,13 @@ async fn line_send_message(form: Form<FormPost>, token: &String) { // Form<FromP
             form.phone,
             form.message,
         ));
-    let multipart = if let Some(sticker) = form.sticker.clone() {
+    let multipart = if let Some(package_id) = form.package_id.clone() {
         multipart
-            .text("stickerId", sticker.sticker_id.clone())
-            .text("stickerPackageId", sticker.package_id.clone())
+            .text("stickerPackageId", package_id.clone())
+    } else { multipart };
+    let multipart = if let Some(sticker_id) = form.sticker_id.clone() {
+        multipart
+            .text("stickerId", sticker_id.clone())
     } else { multipart };
     let res = client.post("https://notify-api.line.me/api/notify") 
         .multipart(multipart)
@@ -73,5 +94,8 @@ async fn line_send_message(form: Form<FormPost>, token: &String) { // Form<FromP
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, line]).attach(AdHoc::config::<Config>())
+    rocket::build()
+        .attach(AdHoc::config::<Config>())
+        .attach(CORS)
+        .mount("/", routes![index, line])
 }
