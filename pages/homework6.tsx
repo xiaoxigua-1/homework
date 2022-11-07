@@ -108,7 +108,7 @@ const Homework2: NextPage = () => {
   
   const formik = useFormik<Data>({
     onSubmit: async(value) => {
-      const uri = "http://richienitro.net:8443";
+      const uri = "http://api.xiaoxigua.art:8443";
       const formData = new FormData();
       formData.append('name', value.name);
       formData.append('height', `${value.height}`);

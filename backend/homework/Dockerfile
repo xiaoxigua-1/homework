@@ -7,11 +7,11 @@ COPY ./Cargo.toml .
 
 RUN cargo build --release
 
-FROM debian:latest AS release
+FROM nginx AS release
 
 WORKDIR /usr/backend
 
 COPY --from=builder /usr/backend/target/release/homework ./
-RUN apt update
-RUN apt install -y ca-certificates
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
 CMD ["./homework"]
