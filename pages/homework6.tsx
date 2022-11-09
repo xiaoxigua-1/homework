@@ -107,8 +107,8 @@ const Homework2: NextPage = () => {
   const dateString = `${year}-${month}-${day}`;
   
   const formik = useFormik<Data>({
-    onSubmit: async(value) => {
-      const uri = "http://api.xiaoxigua.art:8443";
+    onSubmit: async(value: Data) => {
+      const uri = "http://27.147.28.246:8443";
       const formData = new FormData();
       formData.append('name', value.name);
       formData.append('height', `${value.height}`);
