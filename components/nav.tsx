@@ -21,6 +21,10 @@ const nav = [
     name: 'Homework 6',
     link: '/homework6',
   },
+  {
+    name: 'Homework 7',
+    link: '/homework7',
+  },
 ];
 
 function Nav() {
